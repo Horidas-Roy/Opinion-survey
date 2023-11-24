@@ -1,0 +1,83 @@
+import { Link,useNavigate,useLocation } from "react-router-dom";
+import useAuth from "../../Hooks/useAuth";
+import Swal from "sweetalert2";
+
+const LoginPage = () => {
+    const {logIn}=useAuth()
+    const navigate=useNavigate()
+    const location=useLocation()
+
+  const handleLogin=(event)=>{
+     event.preventDefault();
+    const form = event.target;
+    const email=form.email.value;
+    const password=form.password.value;
+
+    console.log(email,password)
+    logIn(email,password)
+    .then(result=>{
+        console.log(result.user)
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Log in successfull",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        navigate(location?.state ? location.state : '/')
+    })
+    .catch(error=>{
+      console.log(error)
+    })
+  }
+  return (
+    <div className="h-[100vh] flex justify-center items-center">
+      <div>
+        <div className="hero min-h-screen">
+          <div className="hero-content w-[50vw]">
+            <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+              <form onSubmit={handleLogin} className="card-body text-[#0f1741]">
+              <h2 className=" text-center text-2xl font-semibold">Please Login</h2>
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Email</span>
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="email"
+                    className="input input-bordered"
+                    required
+                  />
+                </div>
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Password</span>
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="password"
+                    className="input input-bordered"
+                    required
+                  />
+                  <label className="label">
+                    <a href="#" className="label-text-alt link link-hover">
+                      Forgot password?
+                    </a>
+                  </label>
+                </div>
+                <div className="form-control">
+                  <button className="btn bg-gradient-to-r from-[#e31048] to-[#ff5100] text-white font-bold text-xl py-2 px-4 rounded-full'">Login Now</button> 
+                  <p className="text-center py-3">New here? Please <Link to='/resister'><span className="bg-gradient-to-r from-[#e31048] to-[#ff5100] text-transparent bg-clip-text">Resister</span></Link></p>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LoginPage;
