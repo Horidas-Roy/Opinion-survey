@@ -7,6 +7,8 @@ import Home from "../Pages/Home/Home/Home";
 import Dashboard from "../Layout/Dashboard";
 import LoginPage from "../Pages/LoginPage/LoginPage";
 import ResisterPage from "../Pages/ResisterPage/ResisterPage";
+import AllSurvey from "../Pages/AllSurveys/allSurvey";
+import SurveyDetails from "../Pages/AllSurveys/SurveyDetails";
 
 
 export const router = createBrowserRouter([
@@ -26,6 +28,14 @@ export const router = createBrowserRouter([
         {
           path:'/resister',
           element:<ResisterPage></ResisterPage>
+        },
+        {
+          path:'/allSurveys',
+          element:<AllSurvey></AllSurvey>
+        },
+        {
+          path:'/surveyDetails',
+          element:<SurveyDetails></SurveyDetails>
         }
       ]
     },
