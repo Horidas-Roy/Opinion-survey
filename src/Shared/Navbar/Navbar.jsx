@@ -49,7 +49,12 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        {
+          user && <div className="flex justify-center items-center gap-3">
+                <h2>{user?.displayName}</h2>
+                <img className="w-10 h-10 rounded-full" src={user?.photoURL} alt="" />
+          </div>
+        }
       </div>
     </div>
   );

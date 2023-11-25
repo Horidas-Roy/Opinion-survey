@@ -1,6 +1,7 @@
 import { Link,useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 
 
@@ -8,6 +9,7 @@ const ResisterPage = () => {
 
    const {createUser,updateUserProfile}=useAuth()
    const navigate= useNavigate() 
+   const axiosPublic=useAxiosPublic()
 
     const handleResister=(event)=>{
         event.preventDefault();
@@ -23,15 +25,28 @@ const ResisterPage = () => {
            console.log('user',result.user)
            updateUserProfile(name,photoURL)
            .then(()=>{
-                console.log('updated user')
-                Swal.fire({
-                  position: "top-end",
-                  icon: "success",
-                  title: "Resistration is Successfully done!",
-                  showConfirmButton: false,
-                  timer: 1500
-                });
-                navigate('/')
+                
+                //create user entry in the database
+                const userInfo={
+                   name:name,email:email
+                }
+
+                axiosPublic.post('/users',userInfo)
+                .then(res=>{
+                   if(res.data.insertedId){
+                    Swal.fire({
+                      position: "top-end",
+                      icon: "success",
+                      title: "Resistration is Successfully done!",
+                      showConfirmButton: false,
+                      timer: 1500
+                    });
+                    navigate('/')
+                   }
+                  // console.log(res)
+                })
+                
+                
            })
            .catch(error=>{
               console.log(error)
