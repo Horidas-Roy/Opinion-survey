@@ -4,7 +4,7 @@ import SurveyCard from "../../AllSurveys/SurveyCard";
 const LatesSurveys = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
-    fetch("/data.json")
+    fetch("http://localhost:5000/surveys")
       .then((res) => res.json())
       .then((data) => {
         const sortedData = data.sort(
@@ -13,7 +13,7 @@ const LatesSurveys = () => {
         setData(sortedData);
       });
   }, []);
-  console.log(data);
+  // console.log(data);
   return (
     <div className="my-10 text-center">
       <h2 className="text-4xl text-[#0f1741] font-medium text-center my-10">

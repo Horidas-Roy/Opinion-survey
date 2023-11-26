@@ -9,6 +9,12 @@ import LoginPage from "../Pages/LoginPage/LoginPage";
 import ResisterPage from "../Pages/ResisterPage/ResisterPage";
 import AllSurvey from "../Pages/AllSurveys/allSurvey";
 import SurveyDetails from "../Pages/AllSurveys/SurveyDetails";
+import ProUser from "../Pages/proUser/ProUser";
+import AdminHome from "../Pages/Dashboard/AdminHome/AdminHome";
+import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
+import SurveyorHome from "../Pages/Dashboard/SurveyorHome/SurveyorHome";
+import SurveyCreation from "../Pages/Dashboard/SurveyCreation/SurveyCreation";
+import AllVoter from "../Pages/Dashboard/AllVoters/AllVoter";
 
 
 export const router = createBrowserRouter([
@@ -34,13 +40,45 @@ export const router = createBrowserRouter([
           element:<AllSurvey></AllSurvey>
         },
         {
-          path:'/surveyDetails',
-          element:<SurveyDetails></SurveyDetails>
+          path:'/surveyDetails/:id',
+          element:<SurveyDetails></SurveyDetails>,
+          loader:({params})=>fetch(`http://localhost:5000/surveys/${params.id}`)
+        },
+        {
+          path:'/proUser',
+          element:<ProUser></ProUser>
         }
       ]
     },
     {
         path:'dashboard',
-        element:<Dashboard></Dashboard>
+        element:<Dashboard></Dashboard>,
+        children:[
+          {
+            path:'adminHome',
+            element:<AdminHome></AdminHome>
+          },
+          {
+            path:'allUsers',
+            element:<AllUsers></AllUsers>
+          },
+          {
+            path:'surveyorHome',
+            element:<SurveyorHome></SurveyorHome>
+          },
+          {
+            path:'addSurvey',
+            element:<SurveyCreation></SurveyCreation>
+          },
+          {
+            path:'allVoters',
+            element:<AllVoter></AllVoter>
+          },
+          {
+            path:'userHome',
+            element:<AllVoter></AllVoter>
+          }
+        ]
+
     }
   ]);

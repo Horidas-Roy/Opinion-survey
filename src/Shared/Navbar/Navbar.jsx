@@ -2,18 +2,28 @@ import { NavLink } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 
 const Navbar = () => {
-    const {user,logOut}=useAuth()
-    const navLinks=<>
-       <li><NavLink to='/'>Home</NavLink></li>
-       <li><NavLink to='/allSurveys'>All Surveys</NavLink></li>
-       <li><NavLink to='/proUsers'>Pro Users</NavLink></li>
-       <li>
-        {
-          user ? <button onClick={logOut}>LogOut</button>
-          :<NavLink to='/login'>Login</NavLink>
-        }
-       </li>
+  const { user, logOut } = useAuth();
+  const navLinks = (
+    <>
+      <li>
+        <NavLink to="/">Home</NavLink>
+      </li>
+      <li>
+        <NavLink to="/allSurveys">All Surveys</NavLink>
+      </li>
+      <li>
+        <NavLink to="/proUser">Pro User</NavLink>
+      </li>
+      <li>{user && <NavLink to="/dashboard">Dashboard</NavLink>}</li>
+      <li>
+        {user ? (
+          <button onClick={logOut}>LogOut</button>
+        ) : (
+          <NavLink to="/login">Login</NavLink>
+        )}
+      </li>
     </>
+  );
   return (
     <div className="navbar bg-[#fff3de] text-[#0f1741] font-semibold h-10vh">
       <div className="navbar-start">
@@ -41,20 +51,24 @@ const Navbar = () => {
             {navLinks}
           </ul>
         </div>
-        <a className="text-3xl font-bold"><span className="text-[#ff5100] font-extrabold">O</span>piniun</a>
+        <a className="text-3xl font-bold">
+          <span className="text-[#ff5100] font-extrabold">O</span>piniun
+        </a>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-          {navLinks}
-        </ul>
+        <ul className="menu menu-horizontal px-1">{navLinks}</ul>
       </div>
       <div className="navbar-end">
-        {
-          user && <div className="flex justify-center items-center gap-3">
-                <h2>{user?.displayName}</h2>
-                <img className="w-10 h-10 rounded-full" src={user?.photoURL} alt="" />
+        {user && (
+          <div className="flex justify-center items-center gap-3">
+            <h2>{user?.displayName}</h2>
+            <img
+              className="w-10 h-10 rounded-full"
+              src={user?.photoURL}
+              alt=""
+            />
           </div>
-        }
+        )}
       </div>
     </div>
   );

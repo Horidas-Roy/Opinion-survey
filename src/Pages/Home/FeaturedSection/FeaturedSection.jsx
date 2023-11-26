@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import SurveyCard from "../../AllSurveys/SurveyCard";
+// import useSurveys from "../../../Hooks/useSurveys";
 
 const FeaturedSection = () => {
+    // const [surveys]=useSurveys()
     const [data,setData]=useState([])
     useEffect(()=>{
-         fetch('/data.json')
+         fetch('http://localhost:5000/surveys')
     .then(res=>res.json())
     .then(data=>{
       const sortedData=data.sort((a,b)=>b.options.total-a.options.total)

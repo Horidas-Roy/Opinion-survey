@@ -24,7 +24,7 @@ const SurveyCard = ({ survey }) => {
         </div>
         </div>
         <div className="justify-center">
-          <Link to={`/surveyDetails`}>
+          <Link to={`/surveyDetails/${survey._id}`}>
           <button className="btn w-1/2 bg-gradient-to-r from-[#e31048] to-[#ff5100] text-white font-bold text-xl">Details</button>
           </Link>
         </div>
