@@ -9,12 +9,14 @@ import LoginPage from "../Pages/LoginPage/LoginPage";
 import ResisterPage from "../Pages/ResisterPage/ResisterPage";
 import AllSurvey from "../Pages/AllSurveys/allSurvey";
 import SurveyDetails from "../Pages/AllSurveys/SurveyDetails";
-import ProUser from "../Pages/proUser/ProUser";
 import AdminHome from "../Pages/Dashboard/AdminHome/AdminHome";
 import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
 import SurveyorHome from "../Pages/Dashboard/SurveyorHome/SurveyorHome";
 import SurveyCreation from "../Pages/Dashboard/SurveyCreation/SurveyCreation";
 import AllVoter from "../Pages/Dashboard/AllVoters/AllVoter";
+import Payment from "../Pages/proUser/payment/Payment";
+import ProUser from "../Pages/proUser/proUser/ProUser";
+import ProUserHome from "../Pages/Dashboard/ProUserHome/ProUserHome";
 
 
 export const router = createBrowserRouter([
@@ -47,6 +49,10 @@ export const router = createBrowserRouter([
         {
           path:'/proUser',
           element:<ProUser></ProUser>
+        },
+        {
+          path:'/payment',
+          element:<Payment></Payment>
         }
       ]
     },
@@ -65,6 +71,10 @@ export const router = createBrowserRouter([
           {
             path:'surveyorHome',
             element:<SurveyorHome></SurveyorHome>
+          },
+          {
+             path:'proUserHome',
+             element:<ProUserHome></ProUserHome>
           },
           {
             path:'addSurvey',

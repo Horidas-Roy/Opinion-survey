@@ -33,7 +33,7 @@ const SurveyDetails = () => {
 
   return (
     <>
-    <div className="flex py-10">
+    <div className="flex py-10 px-2">
       <div className="card card-compact w-1/2  bg-base-100 shadow-xl">
         <figure>
           <img src={survey?.image} className="w-full" alt="Shoes" />

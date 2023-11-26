@@ -1,12 +1,14 @@
 import { NavLink, Outlet } from "react-router-dom";
 import useAdmin from "../Hooks/UseAdmin";
 import useSurveyor from "../Hooks/useSurveyor";
+import useProUser from "../Hooks/useProUser";
 
 const Dashboard = () => {
   const [isAdmin, adminLoading] = useAdmin();
   const [isSurveyor, surveyorLoading] = useSurveyor();
-//   console.log(isAdmin, isSurveyor);
-  if (adminLoading || surveyorLoading) {
+  const [isProUser,proUserLoading]=useProUser()
+  console.log(isAdmin, isSurveyor,isProUser);
+  if (adminLoading || surveyorLoading || proUserLoading) {
     return <span className="loading loading-spinner text-secondary"></span>;
   }
   return (
@@ -36,7 +38,14 @@ const Dashboard = () => {
               </li>
             </>
           )}
-          {!isAdmin?.admin && !isSurveyor?.surveyor &&
+          { isProUser?.proUser && (
+             <>
+             <li>
+             <NavLink to="/dashboard/proUserHome">ProUser Home</NavLink>
+             </li>
+             </>
+          )}
+          {!isAdmin?.admin && !isSurveyor?.surveyor && !isProUser?.proUser &&
             <li>
               <NavLink to="/dashboard/userHome">User Home</NavLink>
             </li>
