@@ -105,18 +105,18 @@ const AllUsers = () => {
                   <td>{user.name}</td>
                   <td>{user.email}</td>
                   <td>
-                    { user.role === 'admin' ? 'Admin' :
-                      <button
+                    { user.role === 'admin' ? 'Admin' : user.role === 'pro-user'? 'pro-user':<button
                       disabled={user?.role==='surveyor'}
                       onClick={() => handleMakeAdmin(user)}
                       className={`btn btn-lg bg-orange-500 ${user.role ==="surveyor" && "bg-orange-200"}`}
                     >
                       <MdAdminPanelSettings className=" text-white text-2xl"></MdAdminPanelSettings>
                     </button>
+                      
                     }
                   </td>
                   <td>
-                    { user.role === 'surveyor' ? 'surveyor' :
+                    { user.role === 'surveyor' ? 'surveyor' : user.role === 'pro-user' ? 'pro-user':
                       <button
                       disabled={user?.role==='admin'}
                       onClick={() => handleMakeSurveyor(user)}

@@ -2,11 +2,12 @@ import { Link,useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { useState } from "react";
 
 
 
 const ResisterPage = () => {
-
+   const [error,setError] = useState('')
    const {createUser,updateUserProfile}=useAuth()
    const navigate= useNavigate() 
    const axiosPublic=useAxiosPublic()
@@ -50,10 +51,12 @@ const ResisterPage = () => {
            })
            .catch(error=>{
               console.log(error)
+              setError(error.message)
            })
         })
         .catch(error=>{
           console.log(error)
+          setError(error.message)
         })
     }
     return (
@@ -118,6 +121,7 @@ const ResisterPage = () => {
                   />
                 </div>
                 <div className="form-control">
+                <p className="text-red-600 text-sm mb-2 text-center">{error}</p>
                   <button className="btn bg-gradient-to-r from-[#e31048] to-[#ff5100] text-white font-bold text-xl py-2 px-4 rounded-full'">Resister Now</button>
                   <p className="text-center py-3">Already have an account? please <Link to='/login'><span className="bg-gradient-to-r from-[#e31048] to-[#ff5100] text-transparent bg-clip-text">Login</span></Link> </p>
                 </div>

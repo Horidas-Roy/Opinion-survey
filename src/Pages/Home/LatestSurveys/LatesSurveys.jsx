@@ -1,18 +1,26 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import SurveyCard from "../../AllSurveys/SurveyCard";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 
 const LatesSurveys = () => {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost:5000/surveys")
-      .then((res) => res.json())
-      .then((data) => {
-        const sortedData = data.sort(
-          (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
-        );
-        setData(sortedData);
-      });
-  }, []);
+  const axiosPublic=useAxiosPublic()
+
+   const {data=[],isLoading}=useQuery({
+      queryKey:['latesSurvey'],
+      queryFn:async()=>{
+        const res=await axiosPublic.get("/surveys")
+        const data=res.data;
+        const sortedData=data.sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp))
+        return sortedData;
+      }
+   })
+  
+
+   if(isLoading){
+     return <span className="loading loading-spinner text-secondary"></span>
+   }
+
   // console.log(data);
   return (
     <div className="my-10 text-center">

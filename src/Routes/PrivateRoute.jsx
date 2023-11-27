@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import useAuth from '../Hooks/useAuth';
-import { NavLink, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
 const PrivateRoute = ({children}) => {
     const {user,loading}=useAuth()
@@ -14,7 +14,7 @@ const PrivateRoute = ({children}) => {
         return children;
     }
 
-    return <NavLink to='/login' state={{from:location}} replace></NavLink>
+    return <Navigate to='/login' state={{from:location}} replace></Navigate>
 };
 
 export default PrivateRoute;

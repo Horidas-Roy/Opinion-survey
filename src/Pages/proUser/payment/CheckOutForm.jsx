@@ -15,12 +15,13 @@ const CheckOutForm = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const serviceCharge = 100;
+  console.log(user.email)
 
   useEffect(() => {
     axiosSecure
       .post("/create-payment-intent", { serviceCharge })
       .then((res) => {
-        console.log(res.data.clientSecret);
+        // console.log(res.data.clientSecret);
         setClientSecret(res.data.clientSecret);
       });
   }, [axiosSecure]);
@@ -36,9 +37,9 @@ const CheckOutForm = () => {
   if (isLoading) {
     return <span className="loading loading-spinner text-secondary"></span>;
   }
-
-  const newProUser=users.find(item=> item?.email === user?.email)
-  // console.log(newProUser)
+   console.log(users)
+  const newProUser=users.find(item=> item.email === user.email)
+  console.log(newProUser)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -96,8 +97,8 @@ const CheckOutForm = () => {
         const res = await axiosSecure.post("/payments", payment);
         console.log(res.data.insertedId);
         if (res.data.insertedId) {
-          axiosSecure.patch(`/users/proUser/${newProUser?._id}`).then((res) => {
-            console.log(res);
+          axiosSecure.patch(`/users/proUser/${newProUser._id}`).then((res) => {
+            console.log(res.data);
             if (res.data.modifiedCount > 0) {
               refetch();
               Swal.fire({

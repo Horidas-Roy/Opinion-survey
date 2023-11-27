@@ -1,11 +1,14 @@
 import { Link,useNavigate,useLocation } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import { useState } from "react";
 
 const LoginPage = () => {
+   const [error,setError]=useState()
     const {logIn}=useAuth()
     const navigate=useNavigate()
     const location=useLocation()
+    console.log(error)
 
   const handleLogin=(event)=>{
      event.preventDefault();
@@ -13,10 +16,10 @@ const LoginPage = () => {
     const email=form.email.value;
     const password=form.password.value;
 
-    console.log(email,password)
+    // console.log(email,password)
     logIn(email,password)
-    .then(result=>{
-        console.log(result.user)
+    .then(()=>{
+        // console.log(result.user)
         Swal.fire({
           position: "top-end",
           icon: "success",
@@ -27,7 +30,8 @@ const LoginPage = () => {
         navigate(location?.state ? location.state : '/')
     })
     .catch(error=>{
-      console.log(error)
+      setError(error.message)
+      console.log(error.message)
     })
   }
   return (
@@ -68,10 +72,12 @@ const LoginPage = () => {
                   </label>
                 </div>
                 <div className="form-control">
+                  <p className="text-red-600 text-sm mb-2 text-center">{error}</p>
                   <button className="btn bg-gradient-to-r from-[#e31048] to-[#ff5100] text-white font-bold text-xl py-2 px-4 rounded-full'">Login Now</button> 
                   <p className="text-center py-3">New here? Please <Link to='/resister'><span className="bg-gradient-to-r from-[#e31048] to-[#ff5100] text-transparent bg-clip-text">Resister</span></Link></p>
                 </div>
               </form>
+              
             </div>
           </div>
         </div>

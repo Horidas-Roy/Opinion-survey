@@ -17,6 +17,7 @@ import AllVoter from "../Pages/Dashboard/AllVoters/AllVoter";
 import Payment from "../Pages/proUser/payment/Payment";
 import ProUser from "../Pages/proUser/proUser/ProUser";
 import ProUserHome from "../Pages/Dashboard/ProUserHome/ProUserHome";
+import PrivateRoute from "./PrivateRoute";
 
 
 export const router = createBrowserRouter([
@@ -43,12 +44,12 @@ export const router = createBrowserRouter([
         },
         {
           path:'/surveyDetails/:id',
-          element:<SurveyDetails></SurveyDetails>,
-          loader:({params})=>fetch(`http://localhost:5000/surveys/${params.id}`)
+          element:<PrivateRoute><SurveyDetails></SurveyDetails></PrivateRoute>
+          // loader:({params})=>fetch(`http://localhost:5000/surveys/${params.id}`)
         },
         {
           path:'/proUser',
-          element:<ProUser></ProUser>
+          element:<PrivateRoute><ProUser></ProUser></PrivateRoute>
         },
         {
           path:'/payment',

@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Comment from "../../components/Comment/Comment";
 import Report from "../../components/Report/Report"
 import Piechart from "../../components/PieChart/Piechart";
@@ -7,30 +7,29 @@ import Swal from "sweetalert2";
 import useAuth from "../../Hooks/useAuth";
 import useVoter from "../../Hooks/useVoter";
 import useReactioner from "../../Hooks/useReactioner";
+import useSurveyDetails from "../../Hooks/useSurveyDetails";
 
 const SurveyDetails = () => {
-  const survey = useLoaderData();
+  // const survey = useLoaderData();
   const axiosSecure = useAxiosSecure()
   const {user,loading}=useAuth()
   const [voters, voterLoading, voterRetch] = useVoter() 
   const [reactioners,reactionerLoading,reactionerRefetch]=useReactioner()
+  const {id}=useParams()
+  const [survey,surveyLoading,surveyRefetch]=useSurveyDetails(id)
 
  
-  if(loading || voterLoading || reactionerLoading){
+  if(loading || voterLoading || reactionerLoading || surveyLoading){
     return <span className="loading loading-spinner text-secondary"></span>
   }
 
   
   const invalidVoter=voters.find(voter=>voter.email === user.email && voter.surveyId === survey._id)
-  console.log("voter collection:",voters,"invalidVoter:",invalidVoter)
   const invalidReactioner=reactioners.find(reactioner=>reactioner.email === user.email && reactioner.surveyId === survey._id)
-  console.log('reactioners:',reactioners,"invalidRecationer:",invalidReactioner)
   
  
   const handleYesVote=async(id)=>{
-        console.log("Yes Vote",id)
          const res=await axiosSecure.patch(`/surveys/yesVote/${id}`)
-        //  console.log(res.data)
          if(res.data.modifiedCount>0){
 
             const voterInfo={
@@ -39,7 +38,6 @@ const SurveyDetails = () => {
             }
 
             const res=await axiosSecure.post('/voters',voterInfo)
-            console.log(res.data)
             if(res.data.insertedId){
               voterRetch()
               Swal.fire({
@@ -55,9 +53,7 @@ const SurveyDetails = () => {
   }
 
   const handleNoVote=async(id)=>{
-      console.log("No vote",id)
       const res=await axiosSecure.patch(`/surveys/noVote/${id}`)
-         console.log(res.data)
          if(res.data.modifiedCount>0){
 
             const voterInfo={
@@ -66,7 +62,6 @@ const SurveyDetails = () => {
             }
 
             const res=await axiosSecure.post('/voters',voterInfo)
-            console.log(res.data)
             if(res.data.insertedId){
               voterRetch();
               Swal.fire({
@@ -82,9 +77,7 @@ const SurveyDetails = () => {
   }
 
   const handleLike=async(id)=>{
-    console.log("like",id)
     const res=await axiosSecure.patch(`/surveys/like/${id}`)
-    console.log(res.data)
     if(res.data.modifiedCount>0){
        const reactioner={
             email:user.email,
@@ -92,7 +85,6 @@ const SurveyDetails = () => {
        }
 
        const res = await axiosSecure.post("/reactioner",reactioner)
-       console.log(res.data)
         if(res.data.insertedId){
         reactionerRefetch();
         Swal.fire({
@@ -107,9 +99,7 @@ const SurveyDetails = () => {
   }
 
   const handleDisLike=async(id)=>{
-    console.log("dislike",id)
     const res= await axiosSecure.patch(`/surveys/dislike/${id}`)
-    console.log(res.data)
     if(res.data.modifiedCount>0){
             const reactioner={
               email:user.email,
@@ -117,7 +107,6 @@ const SurveyDetails = () => {
             }
 
           const res=await axiosSecure.post(`/reactioner`,reactioner)
-          console.log(res.data)
           if(res.data.insertedId){
             reactionerRefetch();
             Swal.fire({
@@ -131,26 +120,62 @@ const SurveyDetails = () => {
     }
   }
 
-  const handleAddComment =(id)=>{
-    console.log("add comment",id)
+  const handleAddComment =async(event)=>{
+    event.preventDefault()
+    const form=event.target;
+    const NewComment=form.comment.value;
+     const comment={
+         "username":user.displayName,
+         "content":NewComment,
+         "timestamp":new Date()
+     }
+     const res = await axiosSecure.put(`surveys/comment/${survey._id}`,comment)
+      if(res.data.modifiedCount>0){
+        surveyRefetch();
+       Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Your comment has been done!",
+        showConfirmButton: false,
+        timer: 1500
+       });
+     }
   }
 
-  const handleAddReport=(id)=>{
-    console.log("add report",id)
+  const handleAddReport=async(event)=>{
+    event.preventDefault();
+    const form=event.target;
+    const NewReport=form.report.value;
+    const report={
+       "username":user.email,
+        "content": `Report:${NewReport}`,
+        "timestamp":new Date()
+    }
+    const res= await axiosSecure.put(`surveys/report/${survey._id}`,report)
+    if(res.data.modifiedCount>0){
+        surveyRefetch();
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Your report has been done!",
+          showConfirmButton: false,
+          timer: 1500
+         });
+    }
   }
 
   return (
     <>
-    <div className="flex py-10 px-2">
-      <div className="card card-compact w-1/2  bg-base-100 shadow-xl">
+    <div className="py-10 px-2">
+      <div className="card card-compact w-1/2 mx-auto  bg-base-100 shadow-xl">
         <figure>
-          <img src={survey?.image} className="w-full" alt="Shoes" />
+          <img src={survey?.image} className="w-full p-10" alt="Shoes" />
         </figure>
         <div className="card-body">
           <h2 className="card-title">{survey?.title}</h2>
           <p>
             {survey?.description}
-                {invalidReactioner && <p className="text-red-700 font-medium text-end mt-5 text-xl">You already react this survey.</p>}
+                {invalidReactioner && <span className="text-red-700 font-medium text-end mt-5 text-xl">You already react this survey.</span>}
             <span className="flex gap-4 justify-end mt-3">
                 <button onClick={()=>handleLike(survey._id)} disabled={invalidReactioner} className="btn bg-gradient-to-r from-[#e31048] to-[#ff5100] text-white font-medium">Like</button>
                 <button onClick={()=>handleDisLike(survey._id)} disabled={invalidReactioner} className="btn bg-gradient-to-r from-[#e31048] to-[#ff5100] text-white font-medium">DisLike</button>
@@ -164,7 +189,7 @@ const SurveyDetails = () => {
           </div>
         </div>
       </div>
-      <div className="flex-1 text-center">
+      <div className="flex-1 text-center mt-10">
          <h2 className='text-5xl font-medium bg-gradient-to-r from-[#e31048] to-[#ff5100] text-transparent bg-clip-text'>Please Give Your Vote</h2>
          <hr  className="mx-10 border-4 mt-5"/>
          <div className="px-16 text-start">
@@ -184,7 +209,13 @@ const SurveyDetails = () => {
                       >
                       </Comment>)
                     }
-                    <h2><button onClick={()=>handleAddComment(survey._id)} className="btn bg-gradient-to-r from-[#e31048] to-[#ff5100] text-white font-medium">Add Comment</button></h2>
+
+                    <h2>
+                      <form onSubmit={handleAddComment}>
+                      <textarea className="w-full border-2 px-3 py-2" placeholder="Comment here" name="comment" required></textarea><br></br>
+                      <button className="btn bg-gradient-to-r from-[#e31048] to-[#ff5100] text-white font-medium">Add Comment</button>
+                      </form>
+                    </h2>
                 </div>
             </div>
             <div className="mt-10 text-xl">
@@ -197,7 +228,12 @@ const SurveyDetails = () => {
                       >
                       </Report>)
                     }
-                    <h2><button onClick={()=>handleAddReport(survey._id)} className="btn bg-gradient-to-r from-[#e31048] to-[#ff5100] text-white font-medium">Add Report</button></h2>
+                    <h2>
+                    <form onSubmit={handleAddReport}>
+                      <textarea className="w-full border-2 px-3 py-2" placeholder="report here" name="report" required></textarea><br></br>
+                      <button className="btn bg-gradient-to-r from-[#e31048] to-[#ff5100] text-white font-medium">Add Report</button>
+                      </form>
+                      </h2>
                 </div>
             </div>
          </div>
