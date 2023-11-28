@@ -9,7 +9,7 @@ const Navbar = () => {
   const [isAdmin, adminLoading] = useAdmin();
   const [isSurveyor, surveyorLoading] = useSurveyor();
   const [isProUser, proUserLoading] = useProUser();
-  console.log(isAdmin, isSurveyor, isProUser);
+  // console.log(isAdmin, isSurveyor, isProUser);
   if (adminLoading || surveyorLoading || proUserLoading || loading) {
     return <span className="loading loading-spinner text-secondary"></span>;
   }

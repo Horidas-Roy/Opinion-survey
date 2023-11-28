@@ -39,9 +39,9 @@ const Dashboard = () => {
               <li>
                 <NavLink to="/dashboard/surveyManagement">Survey Managment</NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink to="/dashboard/allVoters">All Voters</NavLink>
-              </li>
+              </li> */}
             </>
           )}
           { isProUser?.proUser && (

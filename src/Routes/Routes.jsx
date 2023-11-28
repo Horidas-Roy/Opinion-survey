@@ -21,6 +21,8 @@ import PrivateRoute from "./PrivateRoute";
 import AllPayments from "../Pages/Dashboard/AllPayments/AllPayments";
 import SurveyManagement from "../Pages/Dashboard/Survey Management/SurveyManagement";
 import UpdateSurvey from "../Pages/Dashboard/UpdateSurvey/UpdateSurvey";
+import AdminRoutes from "./AdminRoutes";
+import UserHome from "../Pages/Dashboard/UserHome/UserHome";
 
 
 export const router = createBrowserRouter([
@@ -48,7 +50,7 @@ export const router = createBrowserRouter([
         {
           path:'/surveyDetails/:id',
           element:<PrivateRoute><SurveyDetails></SurveyDetails></PrivateRoute>
-          // loader:({params})=>fetch(`http://localhost:5000/surveys/${params.id}`)
+          // loader:({params})=>fetch(`https://opiniun-server.vercel.app/surveys/${params.id}`)
         },
         {
           path:'/proUser',
@@ -56,21 +58,21 @@ export const router = createBrowserRouter([
         },
         {
           path:'/payment',
-          element:<Payment></Payment>
+          element:<PrivateRoute><Payment></Payment></PrivateRoute>
         }
       ]
     },
     {
         path:'dashboard',
-        element:<Dashboard></Dashboard>,
+        element:<PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
         children:[
           {
             path:'adminHome',
-            element:<AdminHome></AdminHome>
+            element:<AdminRoutes><AdminHome></AdminHome></AdminRoutes>
           },
           {
             path:'allUsers',
-            element:<AllUsers></AllUsers>
+            element:<AdminRoutes><AllUsers></AllUsers></AdminRoutes>
           },
           {
             path:'allPayments',
@@ -102,7 +104,7 @@ export const router = createBrowserRouter([
           },
           {
             path:'userHome',
-            element:<AllVoter></AllVoter>
+            element:<UserHome></UserHome>
           }
         ]
 

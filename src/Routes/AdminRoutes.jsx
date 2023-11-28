@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
+import useAdmin from '../Hooks/useAdmin';
 import useAuth from '../Hooks/useAuth';
-import useAdmin from '../Hooks/UseAdmin';
 import { Navigate } from 'react-router-dom';
 
 const AdminRoutes = ({children}) => {

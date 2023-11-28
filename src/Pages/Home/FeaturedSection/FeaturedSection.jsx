@@ -6,7 +6,7 @@ const FeaturedSection = () => {
     // const [surveys]=useSurveys()
     const [data,setData]=useState([])
     useEffect(()=>{
-         fetch('http://localhost:5000/surveys')
+         fetch('https://opiniun-server.vercel.app/surveys')
     .then(res=>res.json())
     .then(data=>{
       const sortedData=data.sort((a,b)=>b.options.total-a.options.total)

@@ -3,7 +3,7 @@ import useAuth from "./useAuth";
 import { useLocation } from "react-router-dom";
 
 const axiosSecure=axios.create({
-    baseURL:'http://localhost:5000'
+    baseURL:'https://opiniun-server.vercel.app'
 })
 const useAxiosSecure = () => {
     const {logOut}=useAuth()

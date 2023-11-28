@@ -17,6 +17,8 @@ const LoginPage = () => {
     const email=form.email.value;
     const password=form.password.value;
 
+    const from=location.state?.from?.pathname || '/'
+
     // console.log(email,password)
     logIn(email,password)
     .then(()=>{
@@ -28,7 +30,7 @@ const LoginPage = () => {
           showConfirmButton: false,
           timer: 1500
         });
-        navigate(location?.state ? location.state : '/')
+        navigate(from,{replace:true})
     })
     .catch(error=>{
       setError(error.message)
