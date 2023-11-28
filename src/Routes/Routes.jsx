@@ -18,6 +18,9 @@ import Payment from "../Pages/proUser/payment/Payment";
 import ProUser from "../Pages/proUser/proUser/ProUser";
 import ProUserHome from "../Pages/Dashboard/ProUserHome/ProUserHome";
 import PrivateRoute from "./PrivateRoute";
+import AllPayments from "../Pages/Dashboard/AllPayments/AllPayments";
+import SurveyManagement from "../Pages/Dashboard/Survey Management/SurveyManagement";
+import UpdateSurvey from "../Pages/Dashboard/UpdateSurvey/UpdateSurvey";
 
 
 export const router = createBrowserRouter([
@@ -70,8 +73,20 @@ export const router = createBrowserRouter([
             element:<AllUsers></AllUsers>
           },
           {
+            path:'allPayments',
+            element:<AllPayments></AllPayments>
+          },
+          {
             path:'surveyorHome',
             element:<SurveyorHome></SurveyorHome>
+          },
+          {
+            path:'surveyManagement',
+            element:<SurveyManagement></SurveyManagement>
+          },
+          {
+            path:'survey/update/:id',
+            element:<UpdateSurvey></UpdateSurvey>
           },
           {
              path:'proUserHome',

@@ -1,8 +1,19 @@
 import { NavLink } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
+import useAdmin from "../../Hooks/useAdmin";
+import useSurveyor from "../../Hooks/useSurveyor";
+import useProUser from "../../Hooks/useProUser";
 
 const Navbar = () => {
-  const { user, logOut } = useAuth();
+  const { user, logOut, loading } = useAuth();
+  const [isAdmin, adminLoading] = useAdmin();
+  const [isSurveyor, surveyorLoading] = useSurveyor();
+  const [isProUser, proUserLoading] = useProUser();
+  console.log(isAdmin, isSurveyor, isProUser);
+  if (adminLoading || surveyorLoading || proUserLoading || loading) {
+    return <span className="loading loading-spinner text-secondary"></span>;
+  }
+
   const navLinks = (
     <>
       <li>
@@ -14,7 +25,27 @@ const Navbar = () => {
       <li>
         <NavLink to="/proUser">Pro User</NavLink>
       </li>
-      <li>{user && <NavLink to="/dashboard">Dashboard</NavLink>}</li>
+      <li>
+        {(user &&
+          (isProUser.proUser || isAdmin.admin || isSurveyor.surveyor)) || (
+          <NavLink to="/dashboard/userHome">Dashboard</NavLink>
+        )}
+      </li>
+      <li>
+        {isProUser.proUser && (
+          <NavLink to="/dashboard/proUserHome">Dashboard</NavLink>
+        )}
+      </li>
+      <li>
+        {isAdmin.admin && (
+          <NavLink to="/dashboard/adminHome">Dashboard</NavLink>
+        )}
+      </li>
+      <li>
+        {isSurveyor.surveyor && (
+          <NavLink to="/dashboard/surveyorHome">Dashboard</NavLink>
+        )}
+      </li>
       <li>
         {user ? (
           <button onClick={logOut}>LogOut</button>

@@ -1,7 +1,7 @@
 import { NavLink, Outlet } from "react-router-dom";
-import useAdmin from "../Hooks/UseAdmin";
 import useSurveyor from "../Hooks/useSurveyor";
 import useProUser from "../Hooks/useProUser";
+import useAdmin from "../Hooks/useAdmin";
 
 const Dashboard = () => {
   const [isAdmin, adminLoading] = useAdmin();
@@ -23,6 +23,9 @@ const Dashboard = () => {
               <li>
                 <NavLink to="/dashboard/allUsers">All Users</NavLink>
               </li>
+              <li>
+                <NavLink to="/dashboard/allPayments">All Payments</NavLink>
+              </li>
             </>
           )}
           {isSurveyor?.surveyor && (
@@ -32,6 +35,9 @@ const Dashboard = () => {
               </li>
               <li>
                 <NavLink to="/dashboard/addSurvey">Survey Creation</NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/surveyManagement">Survey Managment</NavLink>
               </li>
               <li>
                 <NavLink to="/dashboard/allVoters">All Voters</NavLink>

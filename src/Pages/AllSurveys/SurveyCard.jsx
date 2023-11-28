@@ -16,6 +16,7 @@ const SurveyCard = ({ survey }) => {
       <div className="card-body">
         <h2 className="card-title text-[#0f1741] text-start">{survey?.title}</h2>
         <p className="text-start text-[#787d99]">{survey?.description.slice(0,100)}</p>
+        <div className="text-start font-medium">Category:{survey.category}</div>
         <div className="flex justify-between text-2xl my-5">
         <span>Total Vote:{survey?.options?.total}</span>
         <div className="flex gap-4">
@@ -25,7 +26,7 @@ const SurveyCard = ({ survey }) => {
         </div>
         <div className="justify-center">
           <Link to={`/surveyDetails/${survey._id}`}>
-          <button className="btn w-1/2 bg-gradient-to-r from-[#e31048] to-[#ff5100] text-white font-bold text-xl">Details</button>
+          <button className="btn bg-gradient-to-r from-[#e31048] to-[#ff5100] text-white font-bold text-xl">Details</button>
           </Link>
         </div>
       </div>

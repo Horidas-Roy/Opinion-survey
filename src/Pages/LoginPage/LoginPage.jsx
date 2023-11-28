@@ -2,13 +2,14 @@ import { Link,useNavigate,useLocation } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
 import { useState } from "react";
+import SocialLogin from "../../components/socialLogin/SocialLogin";
 
 const LoginPage = () => {
    const [error,setError]=useState()
     const {logIn}=useAuth()
     const navigate=useNavigate()
     const location=useLocation()
-    console.log(error)
+    // console.log(error)
 
   const handleLogin=(event)=>{
      event.preventDefault();
@@ -72,9 +73,10 @@ const LoginPage = () => {
                   </label>
                 </div>
                 <div className="form-control">
-                  <p className="text-red-600 text-sm mb-2 text-center">{error}</p>
-                  <button className="btn bg-gradient-to-r from-[#e31048] to-[#ff5100] text-white font-bold text-xl py-2 px-4 rounded-full'">Login Now</button> 
-                  <p className="text-center py-3">New here? Please <Link to='/resister'><span className="bg-gradient-to-r from-[#e31048] to-[#ff5100] text-transparent bg-clip-text">Resister</span></Link></p>
+                  <span className="text-red-600 text-sm mb-2 text-center">{error}</span>
+                  <button className="btn bg-gradient-to-r from-[#e31048] to-[#ff5100] text-white font-bold text-xl py-2 px-4 rounded-full">Login Now</button> 
+                  <span className="text-center pt-3">New here? Please <Link to='/resister'><span className="bg-gradient-to-r from-[#e31048] to-[#ff5100] text-transparent bg-clip-text">Resister</span></Link></span>
+                  <SocialLogin></SocialLogin>
                 </div>
               </form>
               
