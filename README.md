@@ -4,6 +4,9 @@
 
 live link: https://opiniun-405ae.web.app/
 
+# Technology 
+React,node,express,mongodb,Tailwind
+
 # 5 bullet points for the client.
 
 
