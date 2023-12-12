@@ -5,6 +5,9 @@
 live link: https://opiniun-405ae.web.app/
 server link: https://github.com/Horidas-Roy/Opinion-survey-server
 
+# Technology 
+React,node,express,mongodb,Tailwind
+
 # 5 bullet points for the client.
 
 
